@@ -52,9 +52,6 @@ public class MyList {
     public Position previous(Position p){
         //Если список пустой или позиция не указана, то выкинем ошибку
         checkPosition(p);
-        // Если это позиция первого элемента, или в позиции по каким-то причинам нет ссылки на
-        // предыдущий элемент выкинем ошибку
-        if(head == p.link || p.link.prevElement == null) throw new InvalidPositionException();
         //Вернем позицию со ссылкой на предыдущий элемент
         return new Position(p.link.prevElement);
     }
