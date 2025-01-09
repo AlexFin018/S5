@@ -146,10 +146,11 @@ public class MyList {
         // возвращает позицию, указывающую на текущий элемент l
         //Если после завершения цикла элемент так и не был найден, то метод возвращает позицию
         // после последнего элемента
-        for (ListElement p = head; p != null; p = p.nextElement) {
-            if(p.equals(x)) return new Position(p);
+        ListElement current = head;
+        while(current != null && ! current.equals(x)){
+            current = current.nextElement;
         }
-        return new Position(null);
+        return new Position(current);
     }
 
     /**

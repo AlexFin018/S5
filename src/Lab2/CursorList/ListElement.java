@@ -21,6 +21,11 @@ public class ListElement extends ListElementBase {
         nextElement = -1;
     }
 
+    public ListElement(int index){
+        super("","");
+        nextElement = index;
+    }
+
     /**
      * Индекс следующего элемента в последовательности
      */

@@ -1,6 +1,8 @@
 package Lab2.CursorList;
 import Common.InvalidPositionException;
 
+import java.util.List;
+
 /**
  * Реализация списка на курсорах
  */
@@ -13,10 +15,6 @@ public class MyList {
      * Массив для хранения элементов списка
      */
     private final ListElement[] elements;
-    /**
-     * Массив для хранения списка пустых ячеек
-     */
-    private final int[] spaces;
     /**
      * Начало списка пустых ячеек для элементов. Содержит индекс ячейки в массиве spaces, в которой хранится
      * индекс следующе свободной ячейки. Если в ячейке по этому индексу хранится -1,
@@ -39,16 +37,15 @@ public class MyList {
         // Создаем два массива, один для элементов,
         // второй для списка индексов пустых ячеек
         elements = new ListElement[SIZE];
-        spaces = new int[SIZE];
         //Устанавливаем начало списка пустых элементов на первую позицию массива
         headSpace = 0;
         //Инициируем список пустых ячеек
         //Для каждой позиции ставим индекс следующей пустой
         for(int i = 0; i < SIZE-1;i++){
-            spaces[i] = i+1;
+            elements[i] = new ListElement(i+1);
         }
         //В последнюю пустую ставим -1 - конец списка - нет следующей пустой
-        spaces[SIZE-1] = -1;
+        elements[SIZE-1] = new ListElement(-1);
     }
 
     /**
@@ -77,7 +74,6 @@ public class MyList {
         //Иначе вернуть позицию следующего элемента
         return new Position(elements[p.elementIndex].nextElement);
     }
-
     /**
      * Метод возвращает позицию предыдущего элемента в списке или end()
      * @param p позиция текущего элемента
@@ -96,10 +92,11 @@ public class MyList {
      */
     private int findPrevious(int p){
         // Цикл идет по всем элементам списка начиная с первого до последнего элемента
-        for(int index = head; index != -1; index = elements[index].nextElement){
-            if(elements[index].nextElement == p) return index;
+        int s = head;
+        while(elements[s].nextElement != p){
+            s = elements[s].nextElement;
         }
-        return -1; // Конец
+        return  s;
     }
 
     /**
@@ -134,8 +131,6 @@ public class MyList {
         if(p.elementIndex == head){
             //Запишем в head индекс элемента следующего за удаляемым
             head = elements[p.elementIndex].nextElement;
-            //Обнулим ячейку по удаляемому индексу
-            elements[p.elementIndex] = null;
             //Запишем в позицию индекс нового первого элемента,
             //Таким образом позиция сохраняется со следующим элементом
             p.elementIndex = head;
@@ -147,8 +142,6 @@ public class MyList {
             //nextElement предыдущего элемента устанавливаем на nextElement удаляемого элемента
             int next = elements[p.elementIndex].nextElement;
             elements[prev].nextElement = next;
-            //Обнуляем ячейку с удаляемым элементом
-            elements[p.elementIndex] = null;
             //Запишем в позицию индекс элемента следующего за удаляемым,
             //Таким образом позиция сохраняется со следующим элементом
             p.elementIndex = next;
@@ -166,7 +159,7 @@ public class MyList {
         // после удаления headSpace станет равен индексу удаленной ячейки, а в массиве spaces по индексу index, будет
         // находиться предыдущее значение headSpace. Освободившаяся ячейка станет первой в списке свободных ячеек.
 
-        spaces[index] = headSpace;
+        elements[index] =new ListElement(headSpace);
         headSpace = index;
     }
 
@@ -179,7 +172,6 @@ public class MyList {
         for(int index = head; index != -1;){
             int current = index;
             index = elements[index].nextElement;
-            elements[current] = null;
             saveSpaceIndex(current);
         }
         // Устанавливаем начало списка в -1
@@ -204,10 +196,11 @@ public class MyList {
         // возвращает позицию, указывающую на текущий элемент l
         //Если после завершения цикла элемент так и не был найден, то метод возвращает позицию
         // после последнего элемента
-        for(int index = head; index != -1;index = elements[index].nextElement){
-            if(x.equals(elements[index])) return new Position(index);
+        int current = head;
+        while(!x.equals(elements[current])){
+            current = elements[current].nextElement;
         }
-        return new Position(-1);
+        return new Position(current);
     }
 
     /**
@@ -218,7 +211,7 @@ public class MyList {
         //Запоминаем значение первой свободной ячейки
         int temp = headSpace;
         //Устанавливаем первой свободной следующую ячейку из списка свободных ячеек
-        headSpace = spaces[headSpace];
+        headSpace = elements[headSpace].nextElement;
         //Возвращаем индекс первой свободной ячейки
         return temp;
     }
@@ -293,8 +286,11 @@ public class MyList {
      * @return
      */
     private int findTailIndex(){
-        int i;
-        for(i = head; i != -1 && elements[i].nextElement != -1; i = elements[i].nextElement);
+        int i = head;
+        while(i != -1 && elements[i].nextElement != -1){
+            i = elements[i].nextElement;
+        }
         return i;
+
     }
 }

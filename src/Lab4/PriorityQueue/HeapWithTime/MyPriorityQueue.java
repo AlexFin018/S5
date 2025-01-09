@@ -1,4 +1,4 @@
-package Lab4.PriorityQueue.Heap;
+package Lab4.PriorityQueue.HeapWithTime;
 import Lab4.PriorityQueueException;
 
 

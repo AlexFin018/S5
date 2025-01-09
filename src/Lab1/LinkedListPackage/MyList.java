@@ -6,14 +6,14 @@ import Common.InvalidPositionException;
  *
  */
 public class MyList {
-    // ссылка на первый элемент списка. Изначально
+    // Ссылка на первый элемент списка. Изначально
     // список пустой, поэтому first равен null
     private ListElement first = null;
 
     /**
      * Метод First возвращает позицию (Position) 1-го элемента в списке
      * Если список пустой --> возвращает позицию после последнего
-     * @return
+     * @return первую позицию в списке
      */
     public Position first(){
         //Если first == null т.е. список пустой, то вернется позиция после последнего
@@ -22,7 +22,7 @@ public class MyList {
 
     /**
      * Метод End возвращает позицию после последнего элемента в списке
-     * @return
+     * @return позиция после последней
      */
     public Position end(){
         return new Position(null);
@@ -31,21 +31,21 @@ public class MyList {
     /**
      * Метод Next возвращает позицию следующего элемента в списке
      * @param p - текущая позиция в списке
-     * @return
+     * @return позиция следующего элемента
      */
     public Position next(Position p){
         //Проверяется, не является ли текущая позиция пустой
         // (если link равен null, выбрасывается исключение).
         if(p == null || p.link == null) throw new InvalidPositionException();
-        // Если следующий равен null, значит p - это последний элемент в списке,
-        //Вернем позицию за последним
+        // Если следующий равен null, значит p - это последний элемент в списке.
+        // Вернем позицию за последним
         return new Position(p.link.nextElement);
     }
 
     /**
      * Метод возвращает позицию предыдущего элемента
      * @param p - позиция, для которой надо найти предыдущий элемент
-     * @return
+     * @return позиция предыдущего элемента
      */
     public Position previous(Position p){
         //Возвращает позицию предыдущего элемента.
@@ -57,22 +57,25 @@ public class MyList {
 
     /**
      * Приватный метод, находит предыдущую позицию
-     * @param p
-     * @return
+     * @param p текущая позиция
+     * @return предыдущая позиция
      */
     private Position findPrevious(Position p){
-        // Цикл идет по всем элементам списка начиная с первого до последнего элемента (?)
-        for(ListElement s = first; s!= null && s.nextElement != null; s = s.nextElement){
-            if(s.nextElement == p.link) return new Position(s);
+        // Устанавливаем current на начало списка
+        ListElement current = first;
+        // Пока следующий для текущего элемента не равен искомой ссылке
+        //переходим к следующему элементу
+        while (current != null && current.nextElement != p.link) {
+            current = current.nextElement;
         }
-        throw new InvalidPositionException();
+        return new Position(current);
     }
 
 
     /**
      * Метод Retrieve возвращает элемент списка по позиции
      * @param p позиция элемента
-     * @return
+     * @return элемент в указанной позиции
      */
     public ListElement retrieve(Position p){
         //Возвращает элемент списка по заданной позиции.
@@ -83,7 +86,7 @@ public class MyList {
 
     /**
      * Метод Delete удаляет элемент из позиции списка
-     * @param p
+     * @param p позиция, в которой нужно удалить элемент
      */
     public void delete(Position p){
         if(p == null || p.link == null) throw new InvalidPositionException();
@@ -114,23 +117,23 @@ public class MyList {
 
     /**
      * Очищает список
-     * @return
+     * @return позицию после последней
      */
     public Position makeNull(){
         //Очищает список, делая его пустым.
-        //firstelement становится равен нулю
+        //First становится равен нулю
         first = null;
-        return new Position((ListElement) null);
+        return new Position(null);
     }
 
     /**
-     * Возвращает позицию в списке  объекта x. Если объекта в списке нет, то возвращается позиция end().
+     * Возвращает позицию в списке объекта x. Если объекта в списке нет, то возвращается позиция end().
      * Если несколько значений, совпадает со значением x, то возвращается первая позиция от начала
      * @param x объект для поиска
      * @return позиция первого найденного объекта в списке
      */
     public Position locate(ListElement x){
-        //цикл начинается с первого элемента списка (указанного
+        //Цикл начинается с первого элемента списка (указанного
         // переменной firstElement) и проходит по списку, проверяя каждый элемент:
         //переменная l в каждой итерации обновляется ссылкой на следующий элемент,
         // используя поле nextElement у текущего элемента.
@@ -140,16 +143,18 @@ public class MyList {
         // возвращает позицию, указывающую на текущий элемент l
         //Если после завершения цикла элемент так и не был найден, то метод возвращает позицию
         // после последнего элемента
-        for (ListElement p = first; p != null; p = p.nextElement) {
-            if(p.equals(x)) return new Position(p);
+
+        ListElement current = first;
+        while(current != null && !current.equals(x)){
+            current = current.nextElement;
         }
-        return new Position(null);
+        return new Position(current);
     }
 
     /**
      * Метод вставляет элемент x на позицию p, элемент на позиции p становится следующим
-     * @param le
-     * @param p
+     * @param le элемент, копию которого нужно вставить
+     * @param p позиция для вставки
      */
     public void insert(ListElement le, Position p ){
         if(p == null) throw new InvalidPositionException();
@@ -159,8 +164,7 @@ public class MyList {
             //Если список пустой, вставляемый элемент становится первым элементом списка
             //Если список не пуст, цикл проходит по списку до последнего элемента
             //После нахождения последнего элемента его поле nextElement обновляется, указывая на новый элемент
-            //Новый элемент не ссылается ни на какие следующие элементы, поэтому его nextElement устанавливается в null
-        //
+            //Новый элемент не ссылается ни на какие следующие элементы, поэтому его nextElement устанавливается в null.
         // Будем вставлять копию
         ListElement x = new ListElement(le);
         if(p.link == null){
@@ -169,8 +173,10 @@ public class MyList {
                 first = x;
             }
             else {
-                ListElement s;
-                for(s = first; s.nextElement != null; s = s.nextElement);
+                ListElement s = first;
+                while ( s.nextElement != null){
+                    s = s.nextElement;
+                }
                 s.nextElement = x;
             }
         }
