@@ -68,7 +68,7 @@ public class MyList {
      * @return позиция следующего элемента
      */
     public Position next(Position p){
-        checkPosition(p);
+        checkPosition(p,true);
         //Иначе вернуть позицию следующего элемента
         return new Position(elements[p.elementIndex].nextNodeIndex);
     }
@@ -78,7 +78,7 @@ public class MyList {
      * @return позиция предыдущего элемента
      */
     public Position previous(Position p){
-        checkPosition(p);
+        checkPosition(p,true);
         //Вернуть позицию предыдущего элемента
         return new Position(findPrevious(p.elementIndex));
     }
@@ -104,7 +104,7 @@ public class MyList {
      * @return искомый элемент
      */
     public Node retrieve(Position p){
-        checkPosition(p);
+        checkPosition(p,true);
         // Возвращаем элемент по индексу, который указан в позиции
         return elements[p.elementIndex];
     }
@@ -112,19 +112,27 @@ public class MyList {
     /**
      * Проверяет позицию на наличие
      * @param p позиция для проверки
+     * @param mustExist true - если позиция обязаня быть в списке, иначе допускается позиция после последней
      */
-    private void checkPosition(Position p){
-        if(head == -1 //Если список пустой
-                || p.elementIndex == -1 // Если это позиция после последней
-                // Или по указанному индексу нет значения выкидываем ошибку
-                || elements[p.elementIndex] == null) throw new InvalidPositionException();
+    private void checkPosition(Position p,boolean mustExist){
+        if(!mustExist){
+            if(p.elementIndex == -1) // Если это позиция после последней, то не ругаемся в этом случае
+                return;
+        }
+
+        //Также проверяем на наличие позиции в списке
+        int s = head;
+        while(s != -1 && s != p.elementIndex){
+            s = elements[s].nextNodeIndex;
+        }
+        if(s == -1) throw new InvalidPositionException();
     }
     /**
      * Метод удаляет элемент в указанной позиции
      * @param p позиция для удаления элемента
      */
     public void delete(Position p){
-        checkPosition(p); // Проверим позицию на наличие
+        checkPosition(p,true); // Проверим позицию на наличие
         int temp = p.elementIndex;// Запомним удаляемый индекс
         // Если удаляем первый элемент, то
         if(p.elementIndex == head){
@@ -220,9 +228,8 @@ public class MyList {
      * @param p позиция, на которую нужно вставить
      */
     public void insert(Node le, Position p ) {
-        if(p == null) throw new InvalidPositionException();
         // Если указана существующая позиция, но список пуст - выкинуть ошибку
-        if(p.elementIndex != -1 && head == -1) throw new InvalidPositionException();
+        checkPosition(p,false);
 
         Node x = new Node(le); // Будем вставлять копию
         //Получим свободную ячейку из списка

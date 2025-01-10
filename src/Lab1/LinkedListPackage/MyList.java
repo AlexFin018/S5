@@ -34,9 +34,9 @@ public class MyList {
      * @return позиция следующего элемента
      */
     public Position next(Position p){
-        //Проверяется, не является ли текущая позиция пустой
-        // (если link равен null, выбрасывается исключение).
-        if(p == null || p.link == null) throw new InvalidPositionException();
+        //Проверяется корректность позиции
+        checkPosition(p,true);
+
         // Если следующий равен null, значит p - это последний элемент в списке.
         // Вернем позицию за последним
         return new Position(p.link.nextNode);
@@ -49,8 +49,8 @@ public class MyList {
      */
     public Position previous(Position p){
         //Возвращает позицию предыдущего элемента.
-        //Если позиция пуста или она указывает на первый элемент, выбрасывается исключение.
-        if(p.link == null || p.link == first) throw new InvalidPositionException();
+        //Проверяется корректность позиции
+        checkPosition(p,true);
         //Если все ок - вызывается findPrevious.
         return findPrevious(p);
     }
@@ -79,8 +79,8 @@ public class MyList {
      */
     public Node retrieve(Position p){
         //Возвращает элемент списка по заданной позиции.
-        //Если позиция пуста (null), выбрасывается исключение.
-        if(p == null || p.link == null) throw new InvalidPositionException();
+        //Проверяется корректность позиции
+        checkPosition(p,true);
         return p.link;
     }
 
@@ -89,7 +89,8 @@ public class MyList {
      * @param p позиция, в которой нужно удалить элемент
      */
     public void delete(Position p){
-        if(p == null || p.link == null) throw new InvalidPositionException();
+        //Проверяется корректность позиции
+        checkPosition(p,true);
         //Если список пустой, ничего не удаляем
         if(first == null) return;
         //Удаляет элемент списка на позиции p.
@@ -157,7 +158,8 @@ public class MyList {
      * @param p позиция для вставки
      */
     public void insert(Node le, Position p ){
-        if(p == null) throw new InvalidPositionException();
+        //Проверяется корректность позиции
+        checkPosition(p,false);
         //Если позиция p равна позиции после последнего элемента
         // (p == End()), элемент вставляется в конец списка
             //Сначала проверяется, пустой ли список (firstElement == null):
@@ -222,5 +224,25 @@ public class MyList {
             p.PrintElement();
             System.out.println();
         }
+    }
+
+    /**
+     * Метод проверяет позицию на корректность. Может быть или существующая позиция, или позиция после последней
+     * @param p - позиция для проверки
+     * @param mustExist - указание на то, что не допускается позиция после последней
+     */
+    private void checkPosition(Position p,boolean mustExist){
+        //Если допускается позиция после последней, то проверим и вернемся
+        if(!mustExist){
+            if(p.link == null) return;
+        }
+        // Проверим позицию на существование. В цикле переберем все позиции и сравним со всеми
+        Node s = first;
+        while(s != null){
+            if(p.link == s) return; // Если находим то выходим
+            s = s.nextNode;
+        }
+        //Если не нашли, то ругаемся
+        throw new InvalidPositionException();
     }
 }

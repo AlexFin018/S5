@@ -21,7 +21,6 @@ public class MyList {
      */
     public Position first() {
         //Если список пустой, то вернем позицию после последнего
-        if(head == null) return new Position(null);
         //Иначе возвращаем позицию со ссылкой на первый элемент
         return new Position(head);
     }
@@ -40,7 +39,7 @@ public class MyList {
      */
     public Position next(Position p){
         // Проверим позицию на корректность
-        checkPosition(p);
+        checkPosition(p,true);
         //Вернем позицию со ссылкой на следующий элемент
          return new Position(p.link.nextNode);
     }
@@ -51,7 +50,7 @@ public class MyList {
      */
     public Position previous(Position p){
         //Если список пустой или позиция не указана, то выкинем ошибку
-        checkPosition(p);
+        checkPosition(p,true);
         //Вернем позицию со ссылкой на предыдущий элемент
         return new Position(p.link.prevNode);
     }
@@ -62,7 +61,7 @@ public class MyList {
      */
     public Node retrieve(Position p){
         // Если позиция некорректная, выкинем ошибку
-        checkPosition(p);
+        checkPosition(p,true);
         // возвращаем ссылку на элемент, которая указана в позиции
         return p.link;
     }
@@ -72,7 +71,7 @@ public class MyList {
      */
     public void delete(Position p){
         // Если список пустой или не указана позиция или это позиция за последним
-        checkPosition(p);
+        checkPosition(p,true);
         //Если это первая позиция, то переустанавливаем head на элемент,
         // следующий за удаляемым, и у этого элемента обнуляем ссылку на предыдущий элемент
         if(head == p.link){
@@ -109,9 +108,19 @@ public class MyList {
      * Метод проверяет позицию на существование
      * @param p позиция для проверки
      */
-    private void checkPosition(Position p){
-        // Если список пустой или не указана позиция или это позиция за последним
-        if(head == null || p == null || p.link == null) throw new InvalidPositionException();
+    private void checkPosition(Position p,boolean mustExist){
+        //Если допускается позиция после последней, то проверим и вернемся
+        if(!mustExist){
+            if(p.link == null) return;
+        }
+        // Проверим позицию на существование. В цикле переберем все позиции и сравним со всеми
+        Node s = head;
+        while(s != null){
+            if(p.link == s) return; // Если находим то выходим
+            s = s.nextNode;
+        }
+        //Если не нашли, то ругаемся
+        throw new InvalidPositionException();
     }
 
     /**
@@ -158,7 +167,7 @@ public class MyList {
     public void insert(Node le, Position p){
         Node x = new Node(le); // Будем вставлять копию
         // Проверяем позицию на корректность
-        if(p == null) throw new InvalidPositionException();
+        checkPosition(p,false);
         //Если p - это после последней, то ставим в конец
         if(p.link == null){
             // Заносим в позицию ссылку на вставляемый элемент
