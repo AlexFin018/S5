@@ -1,7 +1,8 @@
 package Lab3.Stack.ATDList;
 
 //import Lab2.CursorList.*;
-import Lab2.DoubleLinkedList.*;
+//import Lab2.DoubleLinkedList.*;
+import Lab1.LinkedListPackage.*;
 
 public class MyStack {
 

@@ -1,5 +1,5 @@
 import Common.ListElement;
-import Lab3.Map.LinkedList.MyMap;
+import Lab3.Map.ATDList.MyMap;
 import Lab3.Queue.ATDList.MyQueue;
 import Lab3.Stack.ATDList.MyStack;
 

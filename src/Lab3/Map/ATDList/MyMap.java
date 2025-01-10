@@ -1,8 +1,8 @@
 package Lab3.Map.ATDList;
 //import Lab2.CursorList.*;
-import Lab2.DoubleLinkedList.*;
+//import Lab2.DoubleLinkedList.*;
 //import Lab1.ArrayPackage.*;
-//import Lab1.LinkedListPackage.*;
+import Lab1.LinkedListPackage.*;
 
 /**
  * Класс реализации отображения на АТД Список
@@ -32,7 +32,7 @@ public class MyMap {
          */
         public final boolean  result;
         /**
-         * ссылка, возвращаемая методом compute
+         * Ссылка, возвращаемая методом compute
          */
         public final char[] value;
 
@@ -97,8 +97,10 @@ public class MyMap {
     private Node locate(String name){
         // Так как имя хранится в массиве, то преобразуем строку в массив char
         char[] nameAsArray = name.toCharArray();
+
         // В цикле перебираем позиции, ищем нужное имя в списке.
-        for(Position p = list.first(); ! p.equals(list.end());p = list.next(p)){
+        Position p = list.first();
+        while(!p.equals(list.end())){
             // Получаем элемент по позиции
             Node le = list.retrieve(p);
             // Сравниваем имя
@@ -106,6 +108,7 @@ public class MyMap {
                 //Если равно, то возвращаем элемент
                 return le;
             }
+            p = list.next(p);
         }
         // Если не нашли, возвращаем null
         return  null;

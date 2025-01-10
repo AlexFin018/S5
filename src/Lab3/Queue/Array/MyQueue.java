@@ -46,7 +46,7 @@ public class MyQueue {
      */
     public char front() {
         //Если очередь пустая вернем 0
-        if(isEmpty()) return 0;
+        if(isEmpty()) return '\0';
         // Иначе char на позиции firstUsed - начало очереди
         return queue[firstUsed];
     }
@@ -57,7 +57,7 @@ public class MyQueue {
      */
     public char dequeue() {
         // Если очередь пустая, вернем 0
-        if (isEmpty()) return 0;
+        if (isEmpty()) return '\0';
         // Запомним первый элемент в очереди
         char temp = queue[firstUsed];
         //Установим firstUsed начало очереди на следующий элемент
@@ -78,14 +78,14 @@ public class MyQueue {
     public void enqueue(char x){
         //Если очередь полная, то ничего не делаем
         if(isFull()) return;
-        // Если не полная но уперлась в конец массива, то нужно сдвинуть эелементы массива на начало
+        // Если не полная, но уперлась в конец массива, то нужно сдвинуть элементы массива на начало
         if(firstEmpty == queue.length){
             //Сдвигаем элементы к началу массива
             shiftQueue();
         }
         //Заносим элемент в конец очереди и увеличиваем на 1 индекс за последним
         queue[firstEmpty++] = x;
-        //Если очередь была постой, установим индекс первого элемента на 0
+        //Если очередь была пустой, установим индекс первого элемента на 0
         if(firstUsed == -1) firstUsed = 0;
     }
 
