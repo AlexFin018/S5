@@ -258,16 +258,17 @@ public class MyList {
             //Запишем в пустую ячейку элемент
             elements[emptyIndex] = x;
             if(prev == -1){ //Значит меняем head
-                x.nextNodeIndex = head; //Установим старый head, как индекс следующего элемент
                 head = emptyIndex; //Поменяем head на индекс вставляемого элемента
             }
             //Если меняем не head
             else {
                 // Устанавливаем prev.next - на индекс нового элемента,
                 // а next нового элемента, на то что было в prev.next
-                x.nextNodeIndex = elements[prev].nextNodeIndex;
                 elements[prev].nextNodeIndex = emptyIndex;
             }
+            //Установим индекс старого элемента в этой позиции, как следующий в списке для
+            // вставляемого элемента
+            x.nextNodeIndex = p.elementIndex;
             // Занесем индекс вставленного элемента в текущую позицию.
             p.elementIndex = emptyIndex;
         }
