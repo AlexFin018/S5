@@ -9,11 +9,11 @@ public class MyList {
     /**
      * Ссылка на элемент в первой позиции списка
      */
-    private ListElement head = null;
+    private Node head = null;
     /**
      * Ссылка на элемент в последней позиции списка
      */
-    private ListElement tail = null;
+    private Node tail = null;
 
     /**
      * Метод возвращает позицию первого элемента или end() если список пустой
@@ -42,7 +42,7 @@ public class MyList {
         // Проверим позицию на корректность
         checkPosition(p);
         //Вернем позицию со ссылкой на следующий элемент
-         return new Position(p.link.nextElement);
+         return new Position(p.link.nextNode);
     }
     /**
      * Метод возвращает позицию предыдущего элемента в списке или end()
@@ -53,14 +53,14 @@ public class MyList {
         //Если список пустой или позиция не указана, то выкинем ошибку
         checkPosition(p);
         //Вернем позицию со ссылкой на предыдущий элемент
-        return new Position(p.link.prevElement);
+        return new Position(p.link.prevNode);
     }
     /**
      * Метод возвращает элемент в указанной позиции
      * @param p - позиция элемента
      * @return искомый элемент
      */
-    public ListElement retrieve(Position p){
+    public Node retrieve(Position p){
         // Если позиция некорректная, выкинем ошибку
         checkPosition(p);
         // возвращаем ссылку на элемент, которая указана в позиции
@@ -76,8 +76,8 @@ public class MyList {
         //Если это первая позиция, то переустанавливаем head на элемент,
         // следующий за удаляемым, и у этого элемента обнуляем ссылку на предыдущий элемент
         if(head == p.link){
-            head = p.link.nextElement;
-            if(head != null) head.prevElement = null;
+            head = p.link.nextNode;
+            if(head != null) head.prevNode = null;
             else {
                 //Если head стал null, значит удалили последний элемент и нужно обнулить tail
                 tail = null;
@@ -91,17 +91,17 @@ public class MyList {
             // В данном месте всегда есть предыдущий, т.е. tail не может стать null,
             // при отсутствии предыдущего элемента мы попадаем на удаление первого элемента
 
-            tail = p.link.prevElement;
-            tail.nextElement = null;
+            tail = p.link.prevNode;
+            tail.nextNode = null;
             //Устанавливаем p на после последней
             p.link = null;
         }
         // Если это не начало и конец, то выкидываем элемент из цепочки
         else {
-            p.link.prevElement.nextElement = p.link.nextElement;
-            p.link.nextElement.prevElement = p.link.prevElement;
+            p.link.prevNode.nextNode = p.link.nextNode;
+            p.link.nextNode.prevNode = p.link.prevNode;
             //Устанавливаем данные удаленной позиции на след позицию
-            p.link = p.link.nextElement;
+            p.link = p.link.nextNode;
         }
     }
 
@@ -130,7 +130,7 @@ public class MyList {
      * @param x элемент для поиска
      * @return позиция найденного элемента, или позиция после последнего, если она не найдена
      */
-    public Position locate(ListElement x){
+    public Position locate(Node x){
         //цикл начинается с первого элемента списка (указанного
         // переменной head) и проходит по списку, проверяя каждый элемент:
         //переменная l в каждой итерации обновляется ссылкой на следующий элемент,
@@ -141,9 +141,9 @@ public class MyList {
         // возвращает позицию, указывающую на текущий элемент l
         //Если после завершения цикла элемент так и не был найден, то метод возвращает позицию
         // после последнего элемента
-        ListElement current = head;
+        Node current = head;
         while(current != null && ! current.equals(x)){
-            current = current.nextElement;
+            current = current.nextNode;
         }
         return new Position(current);
     }
@@ -155,8 +155,8 @@ public class MyList {
      * @param le - вставляемый элемент
      * @param p - позиция, в которую ставится элемент
      */
-    public void insert(ListElement le, Position p){
-        ListElement x = new ListElement(le); // Будем вставлять копию
+    public void insert(Node le, Position p){
+        Node x = new Node(le); // Будем вставлять копию
         // Проверяем позицию на корректность
         if(p == null) throw new InvalidPositionException();
         //Если p - это после последней, то ставим в конец
@@ -171,9 +171,9 @@ public class MyList {
             else {
                 // Устанавливаем в последнем элементе в списке nextElement равным ссылке на
                 // вставляемый элемент
-                tail.nextElement = x;
+                tail.nextNode = x;
                 // Устанавливаем в добавленном элементе prevElement на tail
-                x.prevElement = tail;
+                x.prevNode = tail;
                 //Устанавливаем последний в списке на добавленный элемент
                 tail = x;
             }
@@ -181,9 +181,9 @@ public class MyList {
         //Если это первый элемент, то меняем head
         else if(head == p.link){
             // В head элементе устанавливаем prevElement на добавляемый элемент,
-            head.prevElement = x;
+            head.prevNode = x;
             // В добавляемом элементе следующим ставим имеющийся head
-            x.nextElement = head;
+            x.nextNode = head;
             // В указанной позиции устанавливаем ссылку на добавленный элемент
             p.link = x;
             //Устанавливаем head на добавленный элемент
@@ -193,8 +193,8 @@ public class MyList {
         // вставляем элемент в цепочку, при этом старый элемент в этой позиции становится
         // следующим
         else {
-            p.link.prevElement = x;
-            x.nextElement = p.link;
+            p.link.prevNode = x;
+            x.nextNode = p.link;
             p.link = x;
         }
     }
@@ -205,7 +205,7 @@ public class MyList {
         //цикл от первого элемента списка, пока l не станет равен null
         // В каждой итерации l обновляется ссылкой на следующий элемент в списке: l.nextElement
         //Для каждого элемента списка метод выводит на консоль имя и адрес
-        for(ListElement p = head; p!=null; p = p.nextElement){
+        for(Node p = head; p!=null; p = p.nextNode){
             p.PrintElement();
             System.out.println();
         }

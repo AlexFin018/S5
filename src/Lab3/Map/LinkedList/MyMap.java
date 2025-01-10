@@ -57,7 +57,7 @@ public class MyMap {
      */
     public void assign(String name,String address){
         //Получаем из списка элемент с указанным именем
-        MyList.ListElement le = list.find(name);
+        MyList.Node le = list.find(name);
         //Если получили не null, заменим в элементе адрес
         if(le != null)le.address = address;
         else {
@@ -74,7 +74,7 @@ public class MyMap {
      */
     public ComputeResult compute(String name){
         // Пробуем найти значение по ключу
-        MyList.ListElement le = list.find(name);
+        MyList.Node le = list.find(name);
         // Если не нашли, то вернем false, null
         if(le == null) {
             return  new ComputeResult(false,null);

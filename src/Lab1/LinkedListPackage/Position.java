@@ -6,13 +6,13 @@ package Lab1.LinkedListPackage;
 public class Position {
     //ссылка на элемент списка (ListElement),
     // который находится на этой позиции.
-    protected ListElement link;
+    protected Node link;
 
     /**
      * Конструктор класса
      * @param p элемент на этой позиции
      */
-    public Position(ListElement p){
+    public Position(Node p){
         link = p;
     }
 

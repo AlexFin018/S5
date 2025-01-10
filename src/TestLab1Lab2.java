@@ -8,15 +8,15 @@ import Lab2.DoubleLinkedList.*;
 public class TestLab1Lab2 {
     public static void main(String[] args) {
         MyList L = new MyList();
-        ListElement x = new ListElement("Иван", "Малая Разночинная 10");
+        Node x = new Node("Иван", "Малая Разночинная 10");
         L.insert(x, L.end());
-        x = new ListElement("Иван", "Малая Разночинная 10");
+        x = new Node("Иван", "Малая Разночинная 10");
         L.insert(x, L.end());
-        x = new ListElement("Вася", "Петроградка");
+        x = new Node("Вася", "Петроградка");
         L.insert(x, L.end());
-        x = new ListElement("Елена", "Васильевский остров");
+        x = new Node("Елена", "Васильевский остров");
         L.insert(x, L.end());
-        x = new ListElement("Елена", "Васильевский остров");
+        x = new Node("Елена", "Васильевский остров");
         L.insert(x, L.end());
         deleteDublicates( L);
         L.printList();

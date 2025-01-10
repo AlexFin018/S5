@@ -1,4 +1,4 @@
-import Common.ListElementBase;
+import Common.ListElement;
 import Lab3.Map.LinkedList.MyMap;
 import Lab3.Queue.CircularList.MyQueue;
 import Lab3.Stack.LinkedList.MyStack;
@@ -40,10 +40,10 @@ public class TestLab3 {
 
         MyMap.ComputeResult result = map.compute(name1);
 
-        ListElementBase.PrintArray(result.value);
+        ListElement.PrintArray(result.value);
         System.out.println();
         result = map.compute("Петр");
-        ListElementBase.PrintArray(result.value);
+        ListElement.PrintArray(result.value);
         System.out.println();
 
     }

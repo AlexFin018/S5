@@ -27,7 +27,7 @@ public class MyQueue {
     public char dequeue() {
        if(isEmpty()) return '\0';
        Position p = list.first();
-       ListElement temp = list.retrieve(p);
+       Node temp = list.retrieve(p);
        list.delete(p);
        return temp.name['\0'];
     }
@@ -36,7 +36,7 @@ public class MyQueue {
      * @param c
      */
     public void enqueue(char c){
-       list.insert(new ListElement(String.valueOf(c),""),list.end());
+       list.insert(new Node(String.valueOf(c),""),list.end());
     }
     /**
      * Возвращает значение true, если очередь пустая, и значение false в противном случае

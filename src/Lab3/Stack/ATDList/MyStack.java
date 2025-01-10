@@ -19,12 +19,12 @@ public class MyStack {
     public char pop() {
         if(isEmpty()) return '\0';
         Position pos = list.first();
-        ListElement temp = list.retrieve(pos);
+        Node temp = list.retrieve(pos);
         list.delete(pos);
         return temp.name[0];
     }
     public void push(char c){
-        list.insert(new ListElement(String.valueOf(c),""),list.first());
+        list.insert(new Node(String.valueOf(c),""),list.first());
     }
     public boolean empty() {
         return isEmpty();

@@ -1,14 +1,14 @@
 package Lab3.Queue.CircularList;
 
 public class MyList {
-    private class ListElement{
+    private class Node {
         protected char letter;
-        protected ListElement next;
-        public ListElement(char letter){
+        protected Node next;
+        public Node(char letter){
             this.letter = letter;
         }
     }
-    private ListElement tail;
+    private Node tail;
 
     protected char first() {
         if(isEmpty()) return '\0';
@@ -20,12 +20,12 @@ public class MyList {
     }
     protected void add(char letter) {
         if(isEmpty()) {
-            tail = new ListElement(letter);
+            tail = new Node(letter);
             tail.next = tail;
         }
         else {
-            ListElement head = tail.next;
-            tail.next = new ListElement(letter);
+            Node head = tail.next;
+            tail.next = new Node(letter);
             tail = tail.next;
             tail.next = head;
         }

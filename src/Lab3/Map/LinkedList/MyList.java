@@ -9,7 +9,7 @@ class MyList {
      * Встроенный класс для хранения элемента отображения Имя и адрес. Которые сохраняются
      * как строки
      */
-    protected class ListElement{
+    protected class Node {
         /**
          * Имя
          */
@@ -21,14 +21,14 @@ class MyList {
         /**
          * Следующий элемент в списке
          */
-        private ListElement nextElement;
+        private Node nextNode;
 
         /**
          * Конструктор элемента
          * @param name имя
          * @param address адрес
          */
-        private ListElement(String name, String address){
+        private Node(String name, String address){
             this.name = name;
             this.address = address;
         }
@@ -46,7 +46,7 @@ class MyList {
     /**
      * Ссылка на первый элемент списка
      */
-    private ListElement head;
+    private Node head;
 
     /**
      * Метод обнуляет список
@@ -60,13 +60,13 @@ class MyList {
      * @param name имя для поиска элемента
      * @return найденный элемент или null, если элемент не найден
      */
-    protected ListElement find(String name){
+    protected Node find(String name){
         //Установим ссылку на текущий элемент на начало списка
-        ListElement current = head;
+        Node current = head;
         //В цикле, пока ссылка на текущий элемент не равна null, или имя из текущего элемент не равено
         // указанному, переходить к следующему элементу
         while(current != null && !name.equals(current.name)){
-            current = current.nextElement;
+            current = current.nextNode;
         }
         // Вернуть ссылку на текущий элемент - это или null, или найденный элемент
         return current;
@@ -79,7 +79,7 @@ class MyList {
      */
     protected void add(String name, String address){
         // Создаем экземпляр элемента с именем и адресом
-        ListElement le = new ListElement(name,address);
+        Node le = new Node(name,address);
         // Если списко пустой, то запишем ссылку на новый элемент в head
         if(head == null) {
             head = le;
@@ -87,20 +87,28 @@ class MyList {
         // Иначе добавим в конец списка
         else {
             // Найлем последний элемент
-            ListElement l = head;
-            while(l.nextElement != null){
-                l = l.nextElement;
-            }
             //Установим его next на добавляемый элемент
-            l.nextElement = le;
+            findTail().nextNode = le;
         }
+    }
+
+    /**
+     * Метод ищет последний элемент
+     * @return Последний элемент в списке
+     */
+    private Node findTail(){
+        Node l = head;
+        while(l.nextNode != null){
+            l = l.nextNode;
+        }
+        return l;
     }
 
     /**
      * Метод выводит список на консоль
      */
     protected void printList() {
-        for (ListElement le = head; le != null; le = le.nextElement){
+        for (Node le = head; le != null; le = le.nextNode){
             System.out.println(le.toString());
         }
     }

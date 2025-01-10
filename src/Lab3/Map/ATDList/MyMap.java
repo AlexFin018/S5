@@ -60,15 +60,15 @@ public class MyMap {
      */
     public void assign(String name, String address){
         //Проверяем, если ли значение для ключа name в списке
-        ListElement le = locate(name);
+        Node le = locate(name);
         // Если значения нет, то запишем его в список
         if(le == null){
-            le = new ListElement(name,address);
+            le = new Node(name,address);
             list.insert(le,list.end());
         }
         else {
             //Если нашли, то меняем адрес в найденном элементе
-            ListElement.ArrayCopy(le.address,address.toCharArray());
+            Node.ArrayCopy(le.address,address.toCharArray());
         }
     }
 
@@ -80,7 +80,7 @@ public class MyMap {
      */
     public ComputeResult compute(String name){
         // Пробуем найти значение по ключу
-        ListElement le = locate(name);
+        Node le = locate(name);
         // Если не нашли, то вернем false, null
         if(le == null){
             return new ComputeResult(false,null);
@@ -94,15 +94,15 @@ public class MyMap {
      * @param name Имя для поиска
      * @return элемент из списка с указанным именем, или nul
      */
-    private ListElement locate(String name){
+    private Node locate(String name){
         // Так как имя хранится в массиве, то преобразуем строку в массив char
         char[] nameAsArray = name.toCharArray();
         // В цикле перебираем позиции, ищем нужное имя в списке.
         for(Position p = list.first(); ! p.equals(list.end());p = list.next(p)){
             // Получаем элемент по позиции
-            ListElement le = list.retrieve(p);
+            Node le = list.retrieve(p);
             // Сравниваем имя
-            if(ListElement.ArraysEquals(le.name,nameAsArray)) {
+            if(Node.ArraysEquals(le.name,nameAsArray)) {
                 //Если равно, то возвращаем элемент
                 return le;
             }

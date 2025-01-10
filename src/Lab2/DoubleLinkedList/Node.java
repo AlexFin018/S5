@@ -1,18 +1,18 @@
 package Lab2.DoubleLinkedList;
 
-import Common.ListElementBase;
+import Common.ListElement;
 
 /**
  * Класс ListElement для размещения в двусвязном списке, каждый элемент
  * содержит ссылку на следующий и на предыдущий элементы
  */
 
-public class ListElement extends ListElementBase {
+public class Node extends ListElement {
     /**
      * Копи конструктор
      * @param x Элемент для копирования
      */
-    public ListElement (ListElement x){
+    public Node(Node x){
         super(x);
     }
 
@@ -24,16 +24,16 @@ public class ListElement extends ListElementBase {
      * @param sName имя персоны
      * @param sAddress адрес персоны
      */
-    public ListElement(String sName, String sAddress){
+    public Node(String sName, String sAddress){
         super(sName,sAddress);
     }
 
     /**
      * Ссылка на следующий элемент в списке
      */
-    protected ListElement nextElement;
+    protected Node nextNode;
     /**
      * Ссылка на предыдущий элемент в списке
      */
-    protected ListElement prevElement;
+    protected Node prevNode;
 }

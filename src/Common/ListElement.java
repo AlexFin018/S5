@@ -4,7 +4,7 @@ package Common;
  * Базовый класс, для реализации ListElement, во всех лабораторных работах. Содержит общую
  * функциональность для всех лабораторных работ
  */
-public class ListElementBase {
+public class ListElement {
     /**
      * Конструктор принимает два параметра:String sName, String sAddress
      * Строка sName преобразуется в массив символов с помощью метода toCharArray().
@@ -13,7 +13,7 @@ public class ListElementBase {
      * @param sName имя персоны
      * @param sAddress адрес персоны
      */
-    public ListElementBase(String sName, String sAddress){
+    public ListElement(String sName, String sAddress){
 
         char[] name = sName.toCharArray();
         ArrayCopy(this.name,name);
@@ -67,7 +67,7 @@ public class ListElementBase {
      * Копи конструктор. Копирует массивы name и address из параметра
      * @param x - ListElementBase для копирования из
      */
-    public ListElementBase(ListElementBase x){
+    public ListElement(ListElement x){
         //конструктор копирует данные из одного объекта типа ListElement
         //в новый объект, создавая его копию с помощью System.arraycopy (не надо!)
         ArrayCopy(name,x.name);
@@ -104,8 +104,8 @@ public class ListElementBase {
         //Этот метод проверяет, равен ли текущий объект другому объекту.
         //Если объект obj не является экземпляром класса ListElement, return false
 
-        if(!(obj instanceof ListElementBase)) return false;
-        ListElementBase le = (ListElementBase) obj;
+        if(!(obj instanceof ListElement)) return false;
+        ListElement le = (ListElement) obj;
         //  сравниваются массивы name и address текущего объекта и объекта obj с помощью
         //  статического метода ArraysEquals().
         //Arrays.equals() проверяет, равны ли два массива символов

@@ -9,7 +9,7 @@ public class MyList {
     /**
      *Создается массив, который будет хранить элементы списка типа ListElement
      */
-    private ListElement[] array = new ListElement[200];
+    private Node[] array = new Node[200];
     //Переменная last хранит количество элементов в списке. Она указывает на индекс
     // после последнего элемента, то есть позицию, куда будет добавлен новый элемент.
     // Изначально last = 0
@@ -77,7 +77,7 @@ public class MyList {
      * @param p
      * @return
      */
-    public ListElement retrieve(Position p){
+    public Node retrieve(Position p){
         //Проверяет, является ли текущая позиция корректной.
         // Если индекс меньше 0 или больше/равен количеству
         // элементов в списке (last), то выбрасывается исключение
@@ -125,7 +125,7 @@ public class MyList {
      * @param x объект, позицию которого нужно найти
      * @return найденная позиция
      */
-    public Position locate(ListElement x){
+    public Position locate(Node x){
         //Ищет элемент x в списке. Проходит по всем элементам массива, и если находит
         // элемент, равный x, возвращает позицию этого элемента. Если элемент не найден,
         // возвращается позиция после последнего
@@ -140,7 +140,7 @@ public class MyList {
      * @param x элемент, который нужно вставить
      * @param p позиция, на которую нужно вставить
      */
-    public void insert(ListElement x, Position p ){
+    public void insert(Node x, Position p ){
         //Если индекс позиции некорректный (меньше 0 или больше количества элементов),
         // выбрасывается исключение.
         if(p.index < 0 || p.index > last) throw  new InvalidPositionException();
@@ -151,7 +151,7 @@ public class MyList {
         //После освобождения места, в индекс p.index записывается индекс нового элемент x
         for(int i = last; i > p.index; i--) array[i] = array[i-1];
 
-        array[p.index] = new ListElement(x);
+        array[p.index] = new Node(x);
         last++;
     }
 

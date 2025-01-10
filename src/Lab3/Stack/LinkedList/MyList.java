@@ -1,16 +1,14 @@
 package Lab3.Stack.LinkedList;
 
-import Common.InvalidPositionException;
-
 public class MyList {
-    private class ListElement{
+    private class Node {
         private char letter;
-        private ListElement next;
-        private ListElement(char ch){
+        private Node next;
+        private Node(char ch){
             letter = ch;
         }
     }
-    private ListElement first;
+    private Node first;
 
     /**
      * Метод First возвращает позицию (Position) 1-го элемента в списке
@@ -28,10 +26,10 @@ public class MyList {
     }
 
     protected void insertFirst(char ch){
-        if(isEmpty()) first = new ListElement(ch);
+        if(isEmpty()) first = new Node(ch);
         else {
-            ListElement temp = first;
-            first = new ListElement(ch);
+            Node temp = first;
+            first = new Node(ch);
             first.next = temp;
         }
     }

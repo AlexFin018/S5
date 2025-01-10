@@ -1,34 +1,34 @@
 package Lab2.CursorList;
 
-import Common.ListElementBase;
+import Common.ListElement;
 /**
  * Класс ListElement для размещения в списке на курсорах
  */
 
-public class ListElement extends ListElementBase {
+public class Node extends ListElement {
     /**
      * Копи конструктор
      * @param x ListElement для копирования из
      */
-    public ListElement (ListElement x){
+    public Node(Node x){
         super(x);
         //Устанавливаем индекс следующего элемента на -1
-        nextElement = -1;
+        nextNode = -1;
     }
-    public ListElement(String sName, String sAddress){
+    public Node(String sName, String sAddress){
         super(sName,sAddress);
         //Устанавливаем индекс следующего элемента на -1
-        nextElement = -1;
+        nextNode = -1;
     }
 
-    public ListElement(int index){
+    public Node(int index){
         super("","");
-        nextElement = index;
+        nextNode = index;
     }
 
     /**
      * Индекс следующего элемента в последовательности
      */
-    protected int nextElement;
+    protected int nextNode;
 
 }

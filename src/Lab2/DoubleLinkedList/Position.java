@@ -6,13 +6,13 @@ package Lab2.DoubleLinkedList;
 public class Position {
     // ссылка на элемент списка (ListElement),
     // который находится на этой позиции.
-    protected ListElement link;
+    protected Node link;
 
     /**
      * Конструктор позиции
      * @param p ссылка на элемент в этой позиции
      */
-    public Position(ListElement p){
+    public Position(Node p){
         link = p;
     }
 

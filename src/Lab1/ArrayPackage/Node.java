@@ -1,15 +1,15 @@
 package Lab1.ArrayPackage;
-import Common.ListElementBase;
+import Common.ListElement;
 
 /**
  * Класс ListElement для размещения в массиве.
  */
-public class ListElement extends ListElementBase {
+public class Node extends ListElement {
     /**
      * Копи конструктор
      * @param x ListElement для копирования из
      */
-    public ListElement (ListElement x){
+    public Node(Node x){
         super(x);
     }
 
@@ -21,7 +21,7 @@ public class ListElement extends ListElementBase {
      * @param sName имя персоны
      * @param sAddress адрес персоны
      */
-    public ListElement(String sName, String sAddress){
+    public Node(String sName, String sAddress){
         super(sName,sAddress);
     }
 }
