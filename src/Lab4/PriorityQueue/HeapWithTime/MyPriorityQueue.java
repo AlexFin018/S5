@@ -54,10 +54,6 @@ public class MyPriorityQueue {
      * Делает очередь пустой
      */
     public void makeNull() {
-        // Обнулим ссылки для ускорения работы сборщика мусора, хотя это и не обязательно
-        for(int i = 0; i < size; i++){
-            items[i] = null;
-        }
         size = 0;
     }
 

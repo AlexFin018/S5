@@ -119,12 +119,7 @@ public class MyList {
      * @return позицию после последнего
      */
     public Position makeNull() {
-        //Достаточно удалить ссылки в одну сторону и начальную ссылку,
-        // чтобы сборщик мусора быстро уничтожил остальное
-        for(ListElement e = head; e != null; e = e.nextElement){
-            e.prevElement = null;
-        }
-        // Но главное - обнулить head и tail
+        // Обнулить head и tail
         head = tail = null;
         // Вернуть позицию после последнего
         return new Position(null);
