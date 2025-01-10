@@ -1,6 +1,6 @@
 package Lab3.Map.ATDList;
-import Lab2.CursorList.*;
-//import Lab2.DoubleLinkedList.*;
+//import Lab2.CursorList.*;
+import Lab2.DoubleLinkedList.*;
 //import Lab1.ArrayPackage.*;
 //import Lab1.LinkedListPackage.*;
 

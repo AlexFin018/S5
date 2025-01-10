@@ -1,7 +1,7 @@
 import Common.ListElement;
 import Lab3.Map.LinkedList.MyMap;
-import Lab3.Queue.CircularList.MyQueue;
-import Lab3.Stack.LinkedList.MyStack;
+import Lab3.Queue.ATDList.MyQueue;
+import Lab3.Stack.ATDList.MyStack;
 
 public class TestLab3 {
     public static void main(String[] vars){

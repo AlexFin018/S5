@@ -72,36 +72,26 @@ public class MyList {
     public void delete(Position p){
         // Если список пустой или не указана позиция или это позиция за последним
         checkPosition(p,true);
-        //Если это первая позиция, то переустанавливаем head на элемент,
-        // следующий за удаляемым, и у этого элемента обнуляем ссылку на предыдущий элемент
-        if(head == p.link){
-            head = p.link.nextNode;
-            if(head != null) head.prevNode = null;
-            else {
-                //Если head стал null, значит удалили последний элемент и нужно обнулить tail
-                tail = null;
-            }
-            //Устанавливаем p на после последней
-            p.link = null;
-        }
-        // Если это последний, то переустанавливаем tail на элемент, предшествующий удаляемому,
-        // у этого элемента ссылку на следующий устанавливаем в null
-        else if(tail == p.link){
-            // В данном месте всегда есть предыдущий, т.е. tail не может стать null,
-            // при отсутствии предыдущего элемента мы попадаем на удаление первого элемента
 
-            tail = p.link.prevNode;
-            tail.nextNode = null;
-            //Устанавливаем p на после последней
-            p.link = null;
+        // Если удаляем head, то меняем head на следующий
+        if(p.link == head) {
+            head = p.link.nextNode;
         }
-        // Если это не начало и конец, то выкидываем элемент из цепочки
         else {
+            //Иначе у предыдущего меняем следующий на следующего
             p.link.prevNode.nextNode = p.link.nextNode;
-            p.link.nextNode.prevNode = p.link.prevNode;
-            //Устанавливаем данные удаленной позиции на след позицию
-            p.link = p.link.nextNode;
         }
+
+        // Если удаляем tail, то меняем tail на предыдущий
+        if(p.link == tail){
+            tail = p.link.prevNode;
+        }
+        else {
+            //Иначе у следующего меняем предыдущий
+            p.link.nextNode.prevNode = p.link.prevNode;
+        }
+        //Устанавливаем ссылку в позиции на следующий элемент
+        p.link = p.link.nextNode;
     }
 
     /**

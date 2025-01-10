@@ -107,13 +107,7 @@ public class MyList {
         }
 
         // Переустанавливаем позицию на элемент, следующий за удаленным
-        if(p.link.nextNode != null){
-            p.link = p.link.nextNode;
-        }
-        else {
-            p.link = null;
-        }
-
+        p.link = p.link.nextNode;
     }
 
     /**
