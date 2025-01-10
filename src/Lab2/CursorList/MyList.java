@@ -70,7 +70,7 @@ public class MyList {
     public Position next(Position p){
         checkPosition(p);
         //Иначе вернуть позицию следующего элемента
-        return new Position(elements[p.elementIndex].nextNode);
+        return new Position(elements[p.elementIndex].nextNodeIndex);
     }
     /**
      * Метод возвращает позицию предыдущего элемента в списке или end()
@@ -91,8 +91,9 @@ public class MyList {
     private int findPrevious(int p){
         // Цикл идет по всем элементам списка начиная с первого до последнего элемента
         int s = head;
-        while(elements[s].nextNode != p){
-            s = elements[s].nextNode;
+        if(s == -1) return s;
+        while(elements[s].nextNodeIndex != p){
+            s = elements[s].nextNodeIndex;
         }
         return  s;
     }
@@ -128,7 +129,7 @@ public class MyList {
         // Если удаляем первый элемент, то
         if(p.elementIndex == head){
             //Запишем в head индекс элемента следующего за удаляемым
-            head = elements[p.elementIndex].nextNode;
+            head = elements[p.elementIndex].nextNodeIndex;
             //Запишем в позицию индекс нового первого элемента,
             //Таким образом позиция сохраняется со следующим элементом
             p.elementIndex = head;
@@ -138,8 +139,8 @@ public class MyList {
             //Найдем предыдущий элемент
             int prev = findPrevious(p.elementIndex); // prev != -1, так как тогда удаляется head
             //nextElement предыдущего элемента устанавливаем на nextElement удаляемого элемента
-            int next = elements[p.elementIndex].nextNode;
-            elements[prev].nextNode = next;
+            int next = elements[p.elementIndex].nextNodeIndex;
+            elements[prev].nextNodeIndex = next;
             //Запишем в позицию индекс элемента следующего за удаляемым,
             //Таким образом позиция сохраняется со следующим элементом
             p.elementIndex = next;
@@ -169,7 +170,7 @@ public class MyList {
         // Перебираем все занятые ячейки, их обнуляем и записываем их индекс в список свободных ячеек
         for(int index = head; index != -1;){
             int current = index;
-            index = elements[index].nextNode;
+            index = elements[index].nextNodeIndex;
             saveSpaceIndex(current);
         }
         // Устанавливаем начало списка в -1
@@ -196,7 +197,7 @@ public class MyList {
         // после последнего элемента
         int current = head;
         while(!x.equals(elements[current])){
-            current = elements[current].nextNode;
+            current = elements[current].nextNodeIndex;
         }
         return new Position(current);
     }
@@ -209,7 +210,7 @@ public class MyList {
         //Запоминаем значение первой свободной ячейки
         int temp = headSpace;
         //Устанавливаем первой свободной следующую ячейку из списка свободных ячеек
-        headSpace = elements[headSpace].nextNode;
+        headSpace = elements[headSpace].nextNodeIndex;
         //Возвращаем индекс первой свободной ячейки
         return temp;
     }
@@ -239,7 +240,7 @@ public class MyList {
                 //Добавляем после последней
                 int tail = findTailIndex(); //Находим индекс последней позиции
                 elements[emptyIndex] = x; //Запишем туда элемент
-                elements[tail].nextNode = emptyIndex; //Подсоединим его к последнему элементу
+                elements[tail].nextNodeIndex = emptyIndex; //Подсоединим его к последнему элементу
                 p.elementIndex = emptyIndex;//Установим в позиции индекс добавленного элемента
             }
         }
@@ -250,15 +251,15 @@ public class MyList {
             //Запишем в пустую ячейку элемент
             elements[emptyIndex] = x;
             if(prev == -1){ //Значит меняем head
-                x.nextNode = head; //Установим старый head, как индекс следующего элемент
+                x.nextNodeIndex = head; //Установим старый head, как индекс следующего элемент
                 head = emptyIndex; //Поменяем head на индекс вставляемого элемента
             }
             //Если меняем не head
             else {
                 // Устанавливаем prev.next - на индекс нового элемента,
                 // а next нового элемента, на то что было в prev.next
-                x.nextNode = elements[prev].nextNode;
-                elements[prev].nextNode = emptyIndex;
+                x.nextNodeIndex = elements[prev].nextNodeIndex;
+                elements[prev].nextNodeIndex = emptyIndex;
             }
             // Занесем индекс вставленного элемента в текущую позицию.
             p.elementIndex = emptyIndex;
@@ -273,7 +274,7 @@ public class MyList {
         // В каждой итерации index обновляется индексом следующего элемента в списке: nextElement
         //Для каждого элемента списка метод выводит на консоль имя и адрес
 
-        for(int index = head; index != -1;index = elements[index].nextNode){
+        for(int index = head; index != -1;index = elements[index].nextNodeIndex){
             elements[index].PrintElement();
             System.out.println();
         }
@@ -285,8 +286,9 @@ public class MyList {
      */
     private int findTailIndex(){
         int i = head;
-        while(i != -1 && elements[i].nextNode != -1){
-            i = elements[i].nextNode;
+        if(i == -1) return i;
+        while(elements[i].nextNodeIndex != -1){
+            i = elements[i].nextNodeIndex;
         }
         return i;
 

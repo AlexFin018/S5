@@ -13,22 +13,22 @@ public class Node extends ListElement {
     public Node(Node x){
         super(x);
         //Устанавливаем индекс следующего элемента на -1
-        nextNode = -1;
+        nextNodeIndex = -1;
     }
     public Node(String sName, String sAddress){
         super(sName,sAddress);
         //Устанавливаем индекс следующего элемента на -1
-        nextNode = -1;
+        nextNodeIndex = -1;
     }
 
     public Node(int index){
         super("","");
-        nextNode = index;
+        nextNodeIndex = index;
     }
 
     /**
      * Индекс следующего элемента в последовательности
      */
-    protected int nextNode;
+    protected int nextNodeIndex;
 
 }
