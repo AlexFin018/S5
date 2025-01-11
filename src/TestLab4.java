@@ -1,4 +1,4 @@
-import Lab4.PriorityQueue.HeapWithTime.MyPriorityQueue;
+import Lab4.PriorityQueue.Heap.MyPriorityQueue;
 
 import java.util.Random;
 
