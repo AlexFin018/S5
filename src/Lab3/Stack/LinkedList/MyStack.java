@@ -1,15 +1,27 @@
 package Lab3.Stack.LinkedList;
 
+/**
+ * Класс реализации стека на связном списке
+ */
 public class MyStack {
 
-    private MyList list;
+    /**
+     * Ссылка на связный список
+     */
+    private final MyList list;
+
+    /**
+     * Конструктор по умолчанию
+     */
     public  MyStack() {
+        // Создаем экземпляр списка
         list = new MyList();
     }
     /**
      * Делает стек пустым
      */
     public void makeNull() {
+        //Очищаем список
         list.makeNull();
     }
     /**
@@ -17,7 +29,9 @@ public class MyStack {
      * @return копия элемента из вершины стека или null, если стек пустой
      */
     public char top() {
+        // Если список пустой, вернем '\0'
         if(list.empty()) return '\0';
+        // Иначе вернем первый символ из списка
         return list.first();
     }
     /**
@@ -25,33 +39,41 @@ public class MyStack {
      * @return элемента из вершины стека или null, если стек пустой
      */
     public char pop() {
+        // Если список пустой, вернем '\0'
         if(list.empty()) return '\0';
+        // Запомним первый символ из списка
         char temp = list.first();
+        // Удалим первый символ из списка
         list.removeFirst();
+        // Вернем сохраненный символ
         return temp;
     }
 
     /**
      * Вставляет элемент x в вершину стека
-     * @param x
+     * @param x заносимый элемент
      */
     public void push(char x){
+        //Занесем символ в первую позицию списка
         list.insertFirst(x);
     }
 
     /**
      * Возвращает значение true, если стек пустой, и значение false в противном случае
-     * @return
+     * @return true, если стек пустой
      */
     public boolean empty() {
+        // Возвращаем результат проверки списка на пустоту
         return list.empty();
     }
 
     /**
      * Возвращает значение true, если стек полный, и значение false в противном случае
-     * @return
+     * @return true, если стек полный
      */
     public boolean full() {
+        // Всегда возвращаем false, стек на списке не может переполниться,
+        // пока есть свободная оперативная память
         return false;
     }
 }

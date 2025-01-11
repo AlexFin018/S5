@@ -48,17 +48,21 @@ class MyList {
      * @param letter символ для добавления
      */
     protected void add(char letter) {
+
+        Node newNode = new Node(letter);
         // Если очередь пустая, то и tail и tail.next (head) устанавливаем
         // на новый добавляемый узел
         if(isEmpty()) {
-            tail = new Node(letter);
-            tail.next = tail;
+            // И tail и head (tail.next) устанавливаем на новый элемент
+            tail = newNode.next = newNode;
         }
         else {
-            Node head = tail.next; //Запоминаем head
-            tail.next = new Node(letter); // Добавляем новый элемент к последнему в списке
-            tail = tail.next; // Устанавливаем  последний в списке элемент на добавленный
-            tail.next = head; //В добавленном элементе устанавливаем ссылку на первый элемент
+            //Устанавливаем head (tail.next) в next заносимого элемента
+            newNode.next = tail.next;
+            // вставляем новый элемент в цепочку последним
+            tail.next = newNode;
+            // Устанавливаем tail на новый элемент
+            tail = newNode;
         }
     }
 
