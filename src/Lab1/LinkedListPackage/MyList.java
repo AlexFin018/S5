@@ -35,7 +35,7 @@ public class MyList {
      */
     public Position next(Position p){
         //Проверяется корректность позиции
-        checkPosition(p,true);
+        checkPosition(p);
 
         // Если следующий равен null, значит p - это последний элемент в списке.
         // Вернем позицию за последним
@@ -50,7 +50,7 @@ public class MyList {
     public Position previous(Position p){
         //Возвращает позицию предыдущего элемента.
         //Проверяется корректность позиции
-        checkPosition(p,true);
+        checkPosition(p);
         //Если все ок - вызывается findPrevious.
         return findPrevious(p);
     }
@@ -64,7 +64,7 @@ public class MyList {
         // Устанавливаем current на начало списка
         Node current = first;
         // Пока следующий для текущего элемента не равен искомой ссылке
-        //переходим к следующему элементу
+        // переходим к следующему элементу
         while (current != null && current.nextNode != p.link) {
             current = current.nextNode;
         }
@@ -80,7 +80,7 @@ public class MyList {
     public Node retrieve(Position p){
         //Возвращает элемент списка по заданной позиции.
         //Проверяется корректность позиции
-        checkPosition(p,true);
+        checkPosition(p);
         return p.link;
     }
 
@@ -90,7 +90,7 @@ public class MyList {
      */
     public void delete(Position p){
         //Проверяется корректность позиции
-        checkPosition(p,true);
+        checkPosition(p);
         //Если список пустой, ничего не удаляем
         if(first == null) return;
         //Удаляет элемент списка на позиции p.
@@ -153,7 +153,7 @@ public class MyList {
      */
     public void insert(Node le, Position p ){
         //Проверяется корректность позиции
-        checkPosition(p,false);
+        if(p.link != null) checkPosition(p);
         //Если позиция p равна позиции после последнего элемента
         // (p == End()), элемент вставляется в конец списка
             //Сначала проверяется, пустой ли список (firstElement == null):
@@ -219,15 +219,10 @@ public class MyList {
     }
 
     /**
-     * Метод проверяет позицию на корректность. Может быть или существующая позиция, или позиция после последней
+     * Метод проверяет позицию на корректность. Может быть или существующая позиция
      * @param p - позиция для проверки
-     * @param mustExist - указание на то, что не допускается позиция после последней
      */
-    private void checkPosition(Position p,boolean mustExist){
-        //Если допускается позиция после последней, то проверим и вернемся
-        if(!mustExist){
-            if(p.link == null) return;
-        }
+    private void checkPosition(Position p){
         // Проверим позицию на существование. В цикле переберем все позиции и сравним со всеми
         Node s = first;
         while(s != null){

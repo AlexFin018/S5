@@ -39,7 +39,7 @@ public class MyList {
      */
     public Position next(Position p){
         // Проверим позицию на корректность
-        checkPosition(p,true);
+        checkPosition(p);
         //Вернем позицию со ссылкой на следующий элемент
          return new Position(p.link.nextNode);
     }
@@ -50,7 +50,7 @@ public class MyList {
      */
     public Position previous(Position p){
         //Если список пустой или позиция не указана, то выкинем ошибку
-        checkPosition(p,true);
+        checkPosition(p);
         //Вернем позицию со ссылкой на предыдущий элемент
         return new Position(p.link.prevNode);
     }
@@ -61,7 +61,7 @@ public class MyList {
      */
     public Node retrieve(Position p){
         // Если позиция некорректная, выкинем ошибку
-        checkPosition(p,true);
+        checkPosition(p);
         // возвращаем ссылку на элемент, которая указана в позиции
         return p.link;
     }
@@ -71,7 +71,7 @@ public class MyList {
      */
     public void delete(Position p){
         // Если список пустой или не указана позиция или это позиция за последним
-        checkPosition(p,true);
+        checkPosition(p);
 
         //Если удаляем посдений элемент, то все обнуляем
         if(head == tail){
@@ -105,11 +105,7 @@ public class MyList {
      * Метод проверяет позицию на существование
      * @param p позиция для проверки
      */
-    private void checkPosition(Position p,boolean mustExist){
-        //Если допускается позиция после последней, то проверим и вернемся
-        if(!mustExist){
-            if(p.link == null) return;
-        }
+    private void checkPosition(Position p){
         // Проверим позицию на существование. В цикле переберем все позиции и сравним со всеми
         Node s = head;
         while(s != null){
@@ -163,7 +159,7 @@ public class MyList {
      */
     public void insert(Node le, Position p){
         // Проверяем позицию на корректность
-        checkPosition(p,false);
+        if(p.link != null) checkPosition(p);
 
         Node x = new Node(le); // Будем вставлять копию
         //Если p - это после последней, то ставим в конец

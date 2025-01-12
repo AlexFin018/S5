@@ -21,7 +21,6 @@ public class MyList {
      * Индекс в headSpace - индекс первой свободной ячейки в массиве элементов
      */
     private  int headSpace;
-
     /**
      * Индекс ячейки первого элемента в списке
      */
@@ -32,13 +31,12 @@ public class MyList {
      */
     public MyList() {
         head = -1; // начало списка отсутствует
-        // Создаем два массива, один для элементов,
-        // второй для списка индексов пустых ячеек
+        // создаем массив для списка индексов пустых ячеек
         elements = new Node[SIZE];
         //Устанавливаем начало списка пустых элементов на первую позицию массива
         headSpace = 0;
         //Инициируем список пустых ячеек
-        //Для каждой позиции ставим индекс следующей пустой
+        //Для каждой позиции ставим узел с индексом следующей пустой
         for(int i = 0; i < SIZE-1;i++){
             elements[i] = new Node(i+1);
         }
@@ -68,7 +66,7 @@ public class MyList {
      * @return позиция следующего элемента
      */
     public Position next(Position p){
-        checkPosition(p,true);
+        checkPosition(p);
         //Иначе вернуть позицию следующего элемента
         return new Position(elements[p.elementIndex].nextNodeIndex);
     }
@@ -78,7 +76,7 @@ public class MyList {
      * @return позиция предыдущего элемента
      */
     public Position previous(Position p){
-        checkPosition(p,true);
+        checkPosition(p);
         //Вернуть позицию предыдущего элемента
         return new Position(findPrevious(p.elementIndex));
     }
@@ -104,7 +102,7 @@ public class MyList {
      * @return искомый элемент
      */
     public Node retrieve(Position p){
-        checkPosition(p,true);
+        checkPosition(p);
         // Возвращаем элемент по индексу, который указан в позиции
         return elements[p.elementIndex];
     }
@@ -112,13 +110,8 @@ public class MyList {
     /**
      * Проверяет позицию на наличие
      * @param p позиция для проверки
-     * @param mustExist true - если позиция обязаня быть в списке, иначе допускается позиция после последней
      */
-    private void checkPosition(Position p,boolean mustExist){
-        if(!mustExist){
-            if(p.elementIndex == -1) // Если это позиция после последней, то не ругаемся в этом случае
-                return;
-        }
+    private void checkPosition(Position p){
 
         //Также проверяем на наличие позиции в списке
         int s = head;
@@ -132,7 +125,7 @@ public class MyList {
      * @param p позиция для удаления элемента
      */
     public void delete(Position p){
-        checkPosition(p,true); // Проверим позицию на наличие
+        checkPosition(p); // Проверим позицию на наличие
         int temp = p.elementIndex;// Запомним удаляемый индекс
         // Если удаляем первый элемент, то
         if(p.elementIndex == head){
@@ -229,7 +222,7 @@ public class MyList {
      */
     public void insert(Node le, Position p ) {
         // Если указана существующая позиция, но список пуст - выкинуть ошибку
-        checkPosition(p,false);
+        if(p.elementIndex != -1) checkPosition(p);
 
         Node x = new Node(le); // Будем вставлять копию
         //Получим свободную ячейку из списка
