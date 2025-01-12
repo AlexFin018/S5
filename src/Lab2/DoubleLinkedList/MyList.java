@@ -75,14 +75,28 @@ public class MyList {
 
         //Если удаляем посдений элемент, то все обнуляем
         if(head == tail){
-            p.link = tail = head = null;
+            tail = head = null;
+            p.link = null;
             return;
         }
 
-        //Иначе у предыдущего меняем следующий на следующего
-        p.link.prevNode.nextNode = p.link.nextNode;
-        //Иначе у следующего меняем предыдущий
-        p.link.nextNode.prevNode = p.link.prevNode;
+        // Если удаляем head, то меняем head на следующий
+        if(p.link == head) {
+            head = p.link.nextNode;
+        }
+        else {
+            //Иначе у предыдущего меняем следующий на следующего
+            p.link.prevNode.nextNode = p.link.nextNode;
+        }
+
+        // Если удаляем tail, то меняем tail на предыдущий
+        if(p.link == tail){
+            tail = p.link.prevNode;
+        }
+        else {
+            //Иначе у следующего меняем предыдущий
+            p.link.nextNode.prevNode = p.link.prevNode;
+        }
         //Устанавливаем ссылку в позиции на следующий элемент
         p.link = p.link.nextNode;
     }
