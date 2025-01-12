@@ -73,23 +73,16 @@ public class MyList {
         // Если список пустой или не указана позиция или это позиция за последним
         checkPosition(p,true);
 
-        // Если удаляем head, то меняем head на следующий
-        if(p.link == head) {
-            head = p.link.nextNode;
-        }
-        else {
-            //Иначе у предыдущего меняем следующий на следующего
-            p.link.prevNode.nextNode = p.link.nextNode;
+        //Если удаляем посдений элемент, то все обнуляем
+        if(head == tail){
+            p.link = tail = head = null;
+            return;
         }
 
-        // Если удаляем tail, то меняем tail на предыдущий
-        if(p.link == tail){
-            tail = p.link.prevNode;
-        }
-        else {
-            //Иначе у следующего меняем предыдущий
-            p.link.nextNode.prevNode = p.link.prevNode;
-        }
+        //Иначе у предыдущего меняем следующий на следующего
+        p.link.prevNode.nextNode = p.link.nextNode;
+        //Иначе у следующего меняем предыдущий
+        p.link.nextNode.prevNode = p.link.prevNode;
         //Устанавливаем ссылку в позиции на следующий элемент
         p.link = p.link.nextNode;
     }
