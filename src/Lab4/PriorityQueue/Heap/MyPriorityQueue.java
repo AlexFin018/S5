@@ -49,34 +49,13 @@ public class MyPriorityQueue {
     }
 
     /**
-     * Выводит очередь на экран в порядке правильной очереди, а не в порядке следования
-     * элементов в массиве
-     * @return
+     * Выводит состояние массива кучи на консоль
      */
     public void print() {
-        // Создадим временную копию кучи
-        int[] temp = new int[size];
-        // Копируем все элементы во временный массив
-        for(int i = 0; i < size; i++){
-            temp[i] = items[i];
-        }
-        // Запоминаем размер очереди
-        int tmpSize = size;
-        // Печатаем очередь, вытаскивая первый элемент, пока очередь не опустеет
-        System.out.println("Очередь: ");
-
-        int item = extractFirst();
-        while (size > 0){
-            System.out.printf("%d; ", item);
-            item = extractFirst();
+        for(int i = 0; i < size; i++) {
+            System.out.printf("%d; ", items[i]);
         }
         System.out.println();
-
-        // Восстановим из копии
-        size = tmpSize;
-        for(int i = 0; i < size; i++){
-            items[i] = temp[i];
-        }
     }
     //Методы для работы с heap
 
