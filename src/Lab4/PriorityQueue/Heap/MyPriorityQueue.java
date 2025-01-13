@@ -179,27 +179,23 @@ public class MyPriorityQueue {
     private void heapifyDown(int pos) {
         // Организуем цикл до тех пор, пока индекс правого листа находится в пределах элементов
         // очереди
-        while (rightChild(pos) < size) {
+        //Проверяем, что значение узла больше одного из его листов
+        //Если значение меньше листьев, то выходим из цикла
+        while (rightChild(pos) < size
+                && (items[pos] > items[leftChild(pos)] || items[pos] > rightChild(pos))) {
             // Вычислим индекс правого и левого листа для узла
             int left = leftChild(pos);
             int right = rightChild(pos);
-
-            //Проверяем, что значение узла больше одного из его листов
-            if (items[pos] > items[left] || items[pos] > items[right]) {
-                //В случае если первый лист меньше второго, то меняем значение с первым листом
-                if (items[left] <items[right]) {
-                    swap(left, pos);
-                    // Устанавливаем значение индекса узла на индекс этого листа
-                    pos = left;
-                }
-                //Иначе меняем со вторым листом
-                else {
-                    swap(right, pos);
-                    pos = right;
-                }
-                //Если значение меньше листьев, то выходим из цикла
-            } else {
-                break;
+            //В случае если первый лист меньше второго, то меняем значение с первым листом
+            if (items[left] <items[right]) {
+                 swap(left, pos);
+                 // Устанавливаем значение индекса узла на индекс этого листа
+                 pos = left;
+            }
+            //Иначе меняем со вторым листом
+            else {
+                 swap(right, pos);
+                 pos = right;
             }
         }
     }
