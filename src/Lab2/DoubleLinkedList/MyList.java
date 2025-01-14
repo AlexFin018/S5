@@ -38,8 +38,8 @@ public class MyList {
      * @return позиция следующего элемента
      */
     public Position next(Position p){
-        // Проверим позицию на корректность
-        checkPosition(p);
+        // Если позиции не существует или это позиция после последней, то выкинем исключение
+        if(!checkPosition(p)) throw new InvalidPositionException();
         //Вернем позицию со ссылкой на следующий элемент
          return new Position(p.link.nextNode);
     }
@@ -49,8 +49,9 @@ public class MyList {
      * @return позиция предыдущего элемента
      */
     public Position previous(Position p){
-        //Если список пустой или позиция не указана, то выкинем ошибку
-        checkPosition(p);
+        //Если позиции не существует, или это первая позиция
+        // выкидываем исключение
+        if(!checkPosition(p) || p.link == head) throw new InvalidPositionException();
         //Вернем позицию со ссылкой на предыдущий элемент
         return new Position(p.link.prevNode);
     }
@@ -60,8 +61,9 @@ public class MyList {
      * @return искомый элемент
      */
     public Node retrieve(Position p){
-        // Если позиция некорректная, выкинем ошибку
-        checkPosition(p);
+        // Если позиция не существует или это позиция после последней,
+        // выкинем ошибку
+        if(!checkPosition(p)) throw new InvalidPositionException();
         // возвращаем ссылку на элемент, которая указана в позиции
         return p.link;
     }
@@ -70,50 +72,52 @@ public class MyList {
      * @param p позиция для удаления элемента
      */
     public void delete(Position p){
-        // Если список пустой или не указана позиция или это позиция за последним
-        checkPosition(p);
+        // Если позиции не существует
+        if(!checkPosition(p)) throw new InvalidPositionException();
 
-        //Если удаляем посдений элемент, то все обнуляем
-        if(head == tail){
-            tail = head = null;
-            p.link = null;
-            return;
-        }
+        // 1. Если список пустой, то проверка позиции выкинет ошибку
+        // 2. Если в списке один элемент, то p.link.nextElement и p.link.prevelement равны нулю,
+        // после удаления должны обнулиться head, tail и p.link
+        // head обнулится в строке 1, tail обнулится в строке 2, p.link обнулится в строке 3
+        // 3. Общий случай - удаление из середины, выполнятся строки 4 и 5 и 3
+        // 4. Удаление головы, выполнятся строки 1 и 5 и 3
+        // 5. Удаление хвоста, выполнятся строки 4 и 2 и 3
 
         // Если удаляем head, то меняем head на следующий
         if(p.link == head) {
-            head = p.link.nextNode;
+            head = p.link.nextNode; //1
         }
         else {
             //Иначе у предыдущего меняем следующий на следующего
-            p.link.prevNode.nextNode = p.link.nextNode;
+            p.link.prevNode.nextNode = p.link.nextNode; //4
         }
 
         // Если удаляем tail, то меняем tail на предыдущий
         if(p.link == tail){
-            tail = p.link.prevNode;
+            tail = p.link.prevNode; // 2
         }
         else {
             //Иначе у следующего меняем предыдущий
-            p.link.nextNode.prevNode = p.link.prevNode;
+            p.link.nextNode.prevNode = p.link.prevNode; //5
         }
         //Устанавливаем ссылку в позиции на следующий элемент
-        p.link = p.link.nextNode;
+        p.link = p.link.nextNode; // 3
     }
 
     /**
-     * Метод проверяет позицию на существование
+     * Метод проверяет позицию на существование. Для позиции после последней выкидывается ошибка
      * @param p позиция для проверки
+     * @return true, если позиция существует, false - если нет
      */
-    private void checkPosition(Position p){
+    private boolean checkPosition(Position p){
         // Проверим позицию на существование. В цикле переберем все позиции и сравним со всеми
         Node s = head;
         while(s != null){
-            if(p.link == s) return; // Если находим то выходим
+            if(p.link == s) return true; // Если находим, то выходим с true
             s = s.nextNode;
         }
-        //Если не нашли, то ругаемся
-        throw new InvalidPositionException();
+        //Если не нашли, то выходим с false
+        return false;
     }
 
     /**
@@ -158,8 +162,8 @@ public class MyList {
      * @param p - позиция, в которую ставится элемент
      */
     public void insert(Node le, Position p){
-        // Проверяем позицию на корректность
-        if(p.link != null) checkPosition(p);
+        // Если позиции не существует и это не позиция после последней, выкидываем ошибку
+        if(p.link != null && !checkPosition(p)) throw new InvalidPositionException();
 
         Node x = new Node(le); // Будем вставлять копию
         //Если p - это после последней, то ставим в конец
@@ -180,17 +184,17 @@ public class MyList {
                 //Устанавливаем последний в списке на добавленный элемент
                 tail = x;
             }
+            return;
         }
         // Если это не последняя позиция, то
         // вставляем элемент в цепочку, при этом старый элемент в этой позиции становится
         // следующим
-        else {
-            if(head == p.link) head = x; //Если это был head, то обновим head
-            p.link.prevNode = x;
-            x.nextNode = p.link;
-            p.link = x;
-        }
+        if(head == p.link) head = x; //Если это был head, то обновим head
+        p.link.prevNode = x;
+        x.nextNode = p.link;
+        p.link = x;
     }
+
     /**
      * Метод печатает список элементов
      */

@@ -66,8 +66,9 @@ public class MyList {
      * @return позиция следующего элемента
      */
     public Position next(Position p){
-        checkPosition(p);
-        //Иначе вернуть позицию следующего элемента
+        // Проверим наличие позиции
+        findPrevious(p.elementIndex);
+        // Вернуть позицию следующего элемента
         return new Position(elements[p.elementIndex].nextNodeIndex);
     }
     /**
@@ -76,24 +77,32 @@ public class MyList {
      * @return позиция предыдущего элемента
      */
     public Position previous(Position p){
-        checkPosition(p);
+        // Проверим позицию на наличие
+        int previous =  findPrevious(p.elementIndex);
+        // Если указана первая позиция, то выкидываем ошибку
+        if(p.elementIndex == head) throw new InvalidPositionException();
         //Вернуть позицию предыдущего элемента
-        return new Position(findPrevious(p.elementIndex));
+        return new Position(previous);
     }
 
     /**
      * Приватный метод поиска индекса предыдущего элемента
+     * Для позиции после последнего выкидываем ошибку
+     * Для первой позиции возвращаем -1
+     * Если позиции не существует, выкидывается ошибка
      * @param p индекс текущего элемента
-     * @return индекс предыдущего элемента или -1, если такого нет
+     * @return индекс предыдущего элемента или -1 для первой позиции
      */
     private int findPrevious(int p){
         // Цикл идет по всем элементам списка начиная с первого до последнего элемента
-        int s = head;
-        if(s == -1) return s;
-        while(elements[s].nextNodeIndex != p){
+        int s = head, prev = -1;
+        while(s != -1){
+            if(s == p) return prev;
+            prev = s;
             s = elements[s].nextNodeIndex;
         }
-        return  s;
+        // Если позиция не найдена, то выкидываем ошибку
+        throw new InvalidPositionException();
     }
 
     /**
@@ -102,30 +111,17 @@ public class MyList {
      * @return искомый элемент
      */
     public Node retrieve(Position p){
-        checkPosition(p);
+        findPrevious(p.elementIndex);
         // Возвращаем элемент по индексу, который указан в позиции
         return elements[p.elementIndex];
     }
 
     /**
-     * Проверяет позицию на наличие
-     * @param p позиция для проверки
-     */
-    private void checkPosition(Position p){
-
-        //Также проверяем на наличие позиции в списке
-        int s = head;
-        while(s != -1 && s != p.elementIndex){
-            s = elements[s].nextNodeIndex;
-        }
-        if(s == -1) throw new InvalidPositionException();
-    }
-    /**
      * Метод удаляет элемент в указанной позиции
      * @param p позиция для удаления элемента
      */
     public void delete(Position p){
-        checkPosition(p); // Проверим позицию на наличие
+        int prev = findPrevious(p.elementIndex); // Проверим позицию на наличие и найдем предыдущий
         int temp = p.elementIndex;// Запомним удаляемый индекс
         // Если удаляем первый элемент, то
         if(p.elementIndex == head){
@@ -134,18 +130,18 @@ public class MyList {
             //Запишем в позицию индекс нового первого элемента,
             //Таким образом позиция сохраняется со следующим элементом
             p.elementIndex = head;
+            return;
         }
         //Если удаляем не первый элемент
-        else {
-            //Найдем предыдущий элемент
-            int prev = findPrevious(p.elementIndex); // prev != -1, так как тогда удаляется head
-            //nextElement предыдущего элемента устанавливаем на nextElement удаляемого элемента
-            int next = elements[p.elementIndex].nextNodeIndex;
-            elements[prev].nextNodeIndex = next;
-            //Запишем в позицию индекс элемента следующего за удаляемым,
-            //Таким образом позиция сохраняется со следующим элементом
-            p.elementIndex = next;
-        }
+
+        //Найдем предыдущий элемент
+        //nextElement предыдущего элемента устанавливаем на nextElement удаляемого элемента
+        int next = elements[p.elementIndex].nextNodeIndex;
+        elements[prev].nextNodeIndex = next;
+        //Запишем в позицию индекс элемента следующего за удаляемым,
+        //Таким образом позиция сохраняется со следующим элементом
+        p.elementIndex = next;
+
         saveSpaceIndex(temp);
     }
 
@@ -221,50 +217,40 @@ public class MyList {
      * @param p позиция, на которую нужно вставить
      */
     public void insert(Node le, Position p ) {
-        // Если указана существующая позиция, но список пуст - выкинуть ошибку
-        if(p.elementIndex != -1) checkPosition(p);
+        // Если указана позиция после последней, в качестве previous
+        // найдем последнюю позицию
+        // Иначе найдем предыдущую и проверим позицию на корректность
+        int previous;
+        if(p.elementIndex == -1)
+            previous = findTailIndex();
+        else
+            previous = findPrevious(p.elementIndex);
 
         Node x = new Node(le); // Будем вставлять копию
+
         //Получим свободную ячейку из списка
         int emptyIndex = captureSpace();
-        // если вставляем на позицию после последней
-        if(p.elementIndex == -1){
-            // Если список пуст
-            if(head == -1) {
-                //Запишем новый индекс в head
-                head = emptyIndex;
-                elements[head] = x; // Занесем туда элемент
-                p.elementIndex = head; //Установим в позиции индекс этого элемента
-            }
-            else {
-                //Добавляем после последней
-                int tail = findTailIndex(); //Находим индекс последней позиции
-                elements[emptyIndex] = x; //Запишем туда элемент
-                elements[tail].nextNodeIndex = emptyIndex; //Подсоединим его к последнему элементу
-                p.elementIndex = emptyIndex;//Установим в позиции индекс добавленного элемента
-            }
-        }
-        //Если вставляем не на после последней
-        else {
-            // Получим индекс предыдущей ячейки
-            int prev = findPrevious(p.elementIndex);
-            //Запишем в пустую ячейку элемент
-            elements[emptyIndex] = x;
-            if(prev == -1){ //Значит меняем head
-                head = emptyIndex; //Поменяем head на индекс вставляемого элемента
-            }
-            //Если меняем не head
-            else {
-                // Устанавливаем prev.next - на индекс нового элемента,
-                // а next нового элемента, на то что было в prev.next
-                elements[prev].nextNodeIndex = emptyIndex;
-            }
-            //Установим индекс старого элемента в этой позиции, как следующий в списке для
-            // вставляемого элемента
-            x.nextNodeIndex = p.elementIndex;
-            // Занесем индекс вставленного элемента в текущую позицию.
+
+        // Если вставляем на первую позицию
+        if(head == p.elementIndex){
+            // У заносимого узла ставим head следующим
+            x.nextNodeIndex = head;
+            // Меняем head на индекс заносимого элемента
+            head = emptyIndex;
+            // Заносим новый элемент в ячейку массива
+            elements[head] = x;
+            // Меняем индекс в позиции
             p.elementIndex = emptyIndex;
+            return;
         }
+        // Иначе цепляем новый элемент к предыдущему
+        elements[previous].nextNodeIndex = emptyIndex;
+        elements[emptyIndex] = x;
+        // Цепляем текущий элемент к новому как следующий
+        x.nextNodeIndex = p.elementIndex;
+        // Меняем индекс в позиции
+        p.elementIndex = emptyIndex;
+
     }
 
     /**
@@ -283,15 +269,15 @@ public class MyList {
 
     /**
      * Метод ищет и возвращает индекс последнего элемента в списке
-     * @return
+     * @return индекс последенего элемента в списке, или -1 если список пустой
      */
     private int findTailIndex(){
-        int i = head;
-        if(i == -1) return i;
-        while(elements[i].nextNodeIndex != -1){
+        int i = head, tail = -1;
+        while(i != -1){
+            tail = i;
             i = elements[i].nextNodeIndex;
         }
-        return i;
+        return tail;
 
     }
 }
