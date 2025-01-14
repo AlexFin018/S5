@@ -1,7 +1,7 @@
 package Lab3.Queue.ATDList;
 //import Lab2.DoubleLinkedList.*;
-import Lab1.LinkedListPackage.*;
-//import Lab2.CursorList.*;
+//import Lab1.LinkedListPackage.*;
+import Lab2.CursorList.*;
 //import Lab1.ArrayPackage.*;
 
 /**

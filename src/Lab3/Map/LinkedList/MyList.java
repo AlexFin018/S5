@@ -98,11 +98,12 @@ class MyList {
      * @return Последний элемент в списке
      */
     private Node findTail(){
-        Node l = head;
-        while(l.nextNode != null){
+        Node l = head,tail = null;
+        while(l != null){
+            tail = l;
             l = l.nextNode;
         }
-        return l;
+        return tail;
     }
 
     /**

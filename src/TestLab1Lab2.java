@@ -1,7 +1,7 @@
 //import Lab1.ArrayPackage.*;
 //import Lab1.LinkedListPackage.*;
-//import Lab2.CursorList.*;
-import Lab2.DoubleLinkedList.*;
+import Lab2.CursorList.*;
+//import Lab2.DoubleLinkedList.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.

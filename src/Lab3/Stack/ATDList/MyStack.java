@@ -1,8 +1,8 @@
 package Lab3.Stack.ATDList;
 //import  Lab1.ArrayPackage.*;
-//import Lab2.CursorList.*;
+import Lab2.CursorList.*;
 //import Lab2.DoubleLinkedList.*;
-import Lab1.LinkedListPackage.*;
+//import Lab1.LinkedListPackage.*;
 
 /**
  * Класс реализации стека на АДТ Список.
